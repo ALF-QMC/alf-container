@@ -1,10 +1,16 @@
 FROM jupyter-pyalf-req
 
-RUN git clone --depth 1 https://git.physik.uni-wuerzburg.de/ALF/ALF.git && \
-    (cd ALF && source ./configure.sh GNU nompi hdf5) && \
-    rm -r /tmp/tmp.* && \
-    git clone https://git.physik.uni-wuerzburg.de/ALF/pyALF.git
+USER root
+RUN mkdir /var/lib/ALF /var/lib/pyALF && \
+    fix-permissions /var/lib/ALF && \
+    fix-permissions /var/lib/pyALF
+USER ${NB_UID}
 
-ENV PATH="/home/jovyan/pyALF/py_alf/cli:${PATH}"
-ENV PYTHONPATH="/home/jovyan/pyALF:${PYTHONPATH}"
-ENV ALF_DIR="/home/jovyan/ALF"
+RUN (cd /var/lib/ALF && git clone --depth 1 https://git.physik.uni-wuerzburg.de/ALF/ALF.git .)
+RUN (cd /var/lib/ALF && source ./configure.sh GNU nompi hdf5) && \
+    rm -r /tmp/tmp.*
+RUN (cd /var/lib/pyALF && git clone https://git.physik.uni-wuerzburg.de/ALF/pyALF.git .)
+
+ENV PATH="/var/lib/pyALF/py_alf/cli:${PATH}"
+ENV PYTHONPATH="/var/lib/pyALF:${PYTHONPATH}"
+ENV ALF_DIR="/var/lib/ALF"
