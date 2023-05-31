@@ -2,7 +2,8 @@ FROM jupyter-pyalf-req
 
 USER root
 RUN mkdir /var/lib/ALF /var/lib/pyALF && \
-    chown ${NB_UID}:${NB_GID} /var/lib/ALF /var/lib/pyALF
+    fix-permissions /var/lib/ALF && \
+    fix-permissions /var/lib/pyALF
 USER ${NB_UID}
 
 RUN (cd /var/lib/ALF && git clone --depth 1 https://git.physik.uni-wuerzburg.de/ALF/ALF.git .)

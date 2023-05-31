@@ -25,6 +25,8 @@ RUN apt-get update --yes && \
     latexmk \
     xindy \
     fonts-freefont-otf \
+    inkscape \
+    netcat \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 

@@ -1,21 +1,19 @@
 #!/bin/bash
-# Script for automatically building and pushing the Docker images
 
-# exit when any command fails
-set -e
+images=(
+#jupyter-pyalf-req
+#jupyter-pyalf-full
+#jupyter-pyalf-doc
+bookworm-pyalf-req
+bullseye-pyalf-req
+buster-pyalf-req
+)
+registry="git.physik.uni-wuerzburg.de:25812/alf/alf_docker"
 
-# The image jupyter-pyalf-req derives from jupyter/minimal-notebook
-# the other images derive from local images, which is why here is no --pull flag
-docker build --pull -t jupyter-pyalf-req jupyter-pyalf-req
-names=(jupyter-pyalf-full jupyter-pyalf-doc)
-
-for name in ${names[*]}; do
-    docker build -t "${name}" "${name}"
+for name in "${images[@]}"; do
+    docker build -t "$name" "$name" || exit 1
+    docker tag "$name" "$registry/$name" || exit 1
 done
-
-for name in jupyter-pyalf-req ${names[*]}; do
-    docker tag "${name}" "alfcollaboration/${name}"
-    docker push "alfcollaboration/${name}"
-    docker tag "${name}" "git.physik.uni-wuerzburg.de:25812/alf/alf_docker/${name}"
-    docker push "git.physik.uni-wuerzburg.de:25812/alf/alf_docker/${name}"
+for name in "${images[@]}"; do
+    docker push "$registry/$name" || exit 1
 done
