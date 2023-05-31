@@ -24,10 +24,12 @@ RUN apt-get update --yes && \
     python3-numba \
     python3-scipy \
     python3-ipywidgets \
+    python3-tk \
     python3-yaml \
-    pipx \
-    python3-venv \
+    python3-pip \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pipx install f90nml
+RUN adduser user
+USER user
+RUN pip install --user f90nml
