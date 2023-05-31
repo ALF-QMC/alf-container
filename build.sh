@@ -1,9 +1,9 @@
 #!/bin/bash
 
 images=(
-#jupyter-pyalf-req
-#jupyter-pyalf-full
-#jupyter-pyalf-doc
+jupyter-pyalf-req
+jupyter-pyalf-full
+jupyter-pyalf-doc
 bookworm-pyalf-req
 bullseye-pyalf-req
 buster-pyalf-req
