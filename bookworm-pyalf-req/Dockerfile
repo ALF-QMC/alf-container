@@ -23,6 +23,7 @@ RUN apt-get update --yes && \
 RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
     bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge && \
     rm Mambaforge-$(uname)-$(uname -m).sh && \
+    ls $HOME/mambaforge/etc/profile.d/conda.sh && \
     source $HOME/mambaforge/etc/profile.d/conda.sh && \
     export PATH="$HOME/mambaforge/bin:$PATH"
 RUN mamba install  --quiet --yes \
