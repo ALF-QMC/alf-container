@@ -17,19 +17,25 @@ RUN apt-get update --yes && \
     g++ \
     # pyALF dependencies
     git \
-    python3-h5py \
-    python3-numpy \
-    python3-pandas \
-    python3-matplotlib \
-    python3-numba \
-    python3-scipy \
-    python3-ipywidgets \
-    python3-tk \
-    python3-yaml \
-    python3-pip \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN adduser user
-USER user
-RUN pip install --user f90nml
+RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
+    bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge && \
+    rm Mambaforge-$(uname)-$(uname -m).sh && \
+    source $HOME/mambaforge/etc/profile.d/conda.sh && \
+    export PATH="$HOME/mambaforge/bin:$PATH"
+RUN mamba install  --quiet --yes \
+    'h5py' \
+    'numpy' \
+    'pandas' \
+    'matplotlib' \
+    'numba' \
+    'scipy' \
+    'ipywidgets' \
+    'ipympl' \
+    'f90nml' \
+    'yaml' \
+    && \
+    mamba clean --all -f -y
+    

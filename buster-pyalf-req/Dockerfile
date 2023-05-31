@@ -30,6 +30,4 @@ RUN apt-get update --yes && \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN adduser user
-USER user
 RUN pip install --user f90nml
