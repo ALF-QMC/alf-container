@@ -1,12 +1,12 @@
 #!/bin/bash
 
 images=(
-# jupyter-pyalf-req
-# jupyter-pyalf-full
-# jupyter-pyalf-doc
-bookworm-pyalf-req
-bullseye-pyalf-req
+jupyter-pyalf-req
+jupyter-pyalf-full
+jupyter-pyalf-doc
 buster-pyalf-req
+bullseye-pyalf-req
+bookworm-pyalf-req
 )
 registry="git.physik.uni-wuerzburg.de:25812/alf/alf_docker"
 

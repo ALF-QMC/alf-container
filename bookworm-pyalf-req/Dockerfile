@@ -17,26 +17,23 @@ RUN apt-get update --yes && \
     g++ \
     # pyALF dependencies
     git \
+    python3-h5py \
+    python3-numpy \
+    python3-pandas \
+    python3-matplotlib \
+    python3-numba \
+    python3-scipy \
+    python3-ipywidgets \
+    python3-tk \
+    python3-yaml \
+    python3-pip \
+    python3-venv \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
-    bash Mambaforge-$(uname)-$(uname -m).sh -b -p $HOME/mambaforge && \
-    rm Mambaforge-$(uname)-$(uname -m).sh && \
-    ls $HOME/mambaforge/etc/profile.d/conda.sh && \
-    source $HOME/mambaforge/etc/profile.d/conda.sh && \
-    export PATH="$HOME/mambaforge/bin:$PATH"
-RUN mamba install  --quiet --yes \
-    'h5py' \
-    'numpy' \
-    'pandas' \
-    'matplotlib' \
-    'numba' \
-    'scipy' \
-    'ipywidgets' \
-    'ipympl' \
-    'f90nml' \
-    'yaml' \
-    && \
-    mamba clean --all -f -y
-    
+# Create Python virtual environment to enable installation via pip
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv --system-site-packages $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN pip install f90nml
