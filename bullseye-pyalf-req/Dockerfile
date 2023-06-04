@@ -30,4 +30,4 @@ RUN apt-get update --yes && \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --user f90nml
+RUN pip install f90nml
