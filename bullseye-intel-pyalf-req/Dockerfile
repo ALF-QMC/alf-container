@@ -46,3 +46,11 @@ ENV NLSPATH=/opt/intel/oneapi/mkl/latest/lib/intel64/locale/%l_%t/%N:/opt/intel/
 ENV INTEL_PYTHONHOME=/opt/intel/oneapi/debugger/latest/dep
 ENV CPATH=/opt/intel/oneapi/tbb/latest/env/../include:/opt/intel/oneapi/mpi/latest//include:/opt/intel/oneapi/mkl/latest/include:/opt/intel/oneapi/dev-utilities/latest/include
 ENV PATH="/opt/intel/oneapi/mpi/latest//libfabric/bin:/opt/intel/oneapi/mpi/latest//bin:/opt/intel/oneapi/mkl/latest/bin/intel64:/opt/intel/oneapi/dev-utilities/latest/bin:/opt/intel/oneapi/debugger/latest/gdb/intel64/bin:/opt/intel/oneapi/compiler/latest/linux/lib/oclfpga/bin:/opt/intel/oneapi/compiler/latest/linux/bin/intel64:/opt/intel/oneapi/compiler/latest/linux/bin:$PATH"
+
+RUN apt-get update && apt-get install -y sudo && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    adduser --disabled-password --gecos "" user && \
+    usermod -aG sudo user && \
+    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/user
+USER user
+

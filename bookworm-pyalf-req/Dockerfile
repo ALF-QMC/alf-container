@@ -37,3 +37,10 @@ RUN python3 -m venv --system-site-packages $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install f90nml
+
+RUN apt-get update && apt-get install -y sudo && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    adduser --disabled-password --gecos "" user && \
+    usermod -aG sudo user && \
+    echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/user
+USER user
