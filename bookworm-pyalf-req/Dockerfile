@@ -44,5 +44,4 @@ RUN apt-get update && apt-get install -y sudo && \
     usermod -aG sudo user && \
     echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/user
 USER user
-WORKDIR "${HOME}"
-
+WORKDIR "/home/user"
