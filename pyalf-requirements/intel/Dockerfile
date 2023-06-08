@@ -1,5 +1,8 @@
 FROM alf-requirements:intel
 
+# Make sure that there are no questions holding up the build
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
     # pyALF dependencies
