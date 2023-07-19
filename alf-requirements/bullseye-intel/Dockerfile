@@ -2,6 +2,7 @@ FROM git.physik.uni-wuerzburg.de:25812/z03/pdi/debian:bullseye-intel-oneapi-ifor
 
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
+    intel-oneapi-mpi-devel \
     # For downloading and compiling HDF5
     curl \
     libghc-zlib-dev \
