@@ -13,7 +13,13 @@ RUN pacman -Sy --noconfirm \
     tk \
     python-yaml \
     python-pip \
+    python-virtualenv \
     && \
-    pacman -Sc
+    pacman -Sc --noconfirm
+
+# Create Python virtual environment to enable installation via pip
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv --system-site-packages $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install f90nml

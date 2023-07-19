@@ -9,4 +9,4 @@ RUN pacman -Sy --noconfirm \
     curl \
     zlib \
     git && \
-    pacman -Sc
+    pacman -Sc --noconfirm
