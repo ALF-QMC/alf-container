@@ -6,5 +6,10 @@ RUN apt-get update --yes && \
     # For downloading and compiling HDF5
     curl \
     libghc-zlib-dev \
+    sudo \
     && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    adduser --disabled-password --gecos "" user && \
+    echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
+
+USER user

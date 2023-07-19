@@ -7,5 +7,10 @@ RUN apt-get update --yes && \
     curl \
     libghc-zlib-dev \
     g++ \
+    sudo \
     && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    adduser --disabled-password --gecos "" user && \
+    echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
+
+USER user

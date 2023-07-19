@@ -1,5 +1,7 @@
 FROM alf-requirements/buster:latest
 
+USER root
+
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # pyALF dependencies
@@ -18,3 +20,5 @@ RUN apt-get update --yes && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install f90nml
+
+USER user

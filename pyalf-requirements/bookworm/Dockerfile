@@ -1,5 +1,7 @@
 FROM alf-requirements/bookworm:latest
 
+USER root
+
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # pyALF dependencies
@@ -24,3 +26,5 @@ RUN python3 -m venv --system-site-packages $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install f90nml
+
+USER user

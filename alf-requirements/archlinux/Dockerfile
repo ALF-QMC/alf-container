@@ -9,4 +9,9 @@ RUN pacman -Sy --noconfirm \
     curl \
     zlib \
     git && \
-    pacman -Sc --noconfirm
+    sudo && \
+    pacman -Sc --noconfirm && \
+    adduser --disabled-password --gecos "" user && \
+    echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
+
+USER user

@@ -1,5 +1,7 @@
 FROM alf-requirements/intel:latest
 
+USER root
+
 # Make sure that there are no questions holding up the build
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -21,3 +23,5 @@ RUN apt-get update -y && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN pip install f90nml
+
+USER user

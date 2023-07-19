@@ -1,5 +1,7 @@
 FROM alf-requirements/archlinux:latest
 
+USER root
+
 RUN pacman -Sy --noconfirm \
     # pyALF dependencies
     git \
@@ -23,3 +25,5 @@ RUN python3 -m venv --system-site-packages $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip install f90nml
+
+USER user
