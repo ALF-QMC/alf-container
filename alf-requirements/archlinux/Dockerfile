@@ -11,7 +11,7 @@ RUN pacman -Sy --noconfirm \
     git \
     sudo && \
     pacman -Sc --noconfirm && \
-    adduser --disabled-password --gecos "" user && \
+    useradd -m user && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
 
 USER user
