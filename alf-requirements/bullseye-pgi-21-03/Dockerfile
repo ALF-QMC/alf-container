@@ -13,6 +13,7 @@ RUN apt-get update --yes && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
 
 RUN ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/21.3/comm_libs/openmpi/openmpi-3.1.5/bin/mpifort /usr/local/bin/mpifort && \
-    ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/21.3/comm_libs/openmpi/openmpi-3.1.5/bin/mpiexec /usr/local/bin/mpiexec
+    ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/21.3/comm_libs/openmpi/openmpi-3.1.5/bin/mpiexec /usr/local/bin/mpiexec && \
+    ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/21.3/compilers/bin/nvfortran /usr/local/bin/nvfortran
 
 USER user
