@@ -8,7 +8,7 @@ RUN apt-get update --yes && \
     sudo \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
-    adduser --disabled-password --gecos "" user && \
+    useradd -m user && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
 
 USER user
