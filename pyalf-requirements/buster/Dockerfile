@@ -1,4 +1,4 @@
-FROM alf-requirements:buster
+FROM alf-requirements/buster:latest
 
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \

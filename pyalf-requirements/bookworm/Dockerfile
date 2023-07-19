@@ -1,4 +1,4 @@
-FROM alf-requirements:bookworm
+FROM alf-requirements/bookworm:latest
 
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \

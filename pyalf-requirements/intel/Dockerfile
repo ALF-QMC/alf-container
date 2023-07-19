@@ -1,4 +1,4 @@
-FROM alf-requirements:intel
+FROM alf-requirements/intel:latest
 
 # Make sure that there are no questions holding up the build
 ARG DEBIAN_FRONTEND=noninteractive

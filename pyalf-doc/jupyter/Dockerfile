@@ -1,4 +1,4 @@
-FROM pyalf-full:jupyter
+FROM pyalf-full/jupyter:latest
 
 # Install Python 3 packages needed for documentation
 RUN mamba install --quiet --yes \

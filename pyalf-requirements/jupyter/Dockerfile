@@ -1,4 +1,4 @@
-FROM alf-requirements:jupyter
+FROM alf-requirements/jupyter:latest
 
 # Install Python 3 packages
 RUN mamba install --quiet --yes \

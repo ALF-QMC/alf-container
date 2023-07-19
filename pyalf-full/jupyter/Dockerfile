@@ -1,4 +1,4 @@
-FROM pyalf-requirements:jupyter
+FROM pyalf-requirements/jupyter:latest
 
 USER root
 RUN mkdir /var/lib/ALF /var/lib/pyALF && \

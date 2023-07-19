@@ -1,4 +1,4 @@
-FROM alf-requirements:archlinux
+FROM alf-requirements/archlinux:latest
 
 RUN pacman -Sy --noconfirm \
     # pyALF dependencies

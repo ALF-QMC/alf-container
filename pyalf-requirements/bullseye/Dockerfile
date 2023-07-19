@@ -1,4 +1,4 @@
-FROM alf-requirements:bullseye
+FROM alf-requirements/bullseye:latest
 
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \

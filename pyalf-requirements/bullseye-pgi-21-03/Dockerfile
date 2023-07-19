@@ -1,4 +1,4 @@
-FROM alf-requirements:bullseye-pgi-21-03
+FROM alf-requirements/bullseye-pgi-21-03:latest
 
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
