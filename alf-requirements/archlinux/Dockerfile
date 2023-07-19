@@ -8,7 +8,7 @@ RUN pacman -Sy --noconfirm \
     openmpi \
     curl \
     zlib \
-    git && \
+    git \
     sudo && \
     pacman -Sc --noconfirm && \
     adduser --disabled-password --gecos "" user && \
