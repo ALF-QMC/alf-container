@@ -7,10 +7,16 @@ RUN apt-get update --yes && \
     curl \
     libghc-zlib-dev \
     sudo \
+    # Needed by OpenMPI
+    openssh-client \
+    # Helper programs for CI tests
+    rdfind \
+    symlinks \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     useradd -m user && \
-    echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
+    echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd \
+    echo "alias mpiexec='mpiexec --mca mpi_cuda_support 0'"
 
 RUN ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/21.3/comm_libs/openmpi/openmpi-3.1.5/bin/mpifort /usr/local/bin/mpifort && \
     ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/21.3/comm_libs/openmpi/openmpi-3.1.5/bin/mpiexec /usr/local/bin/mpiexec && \
