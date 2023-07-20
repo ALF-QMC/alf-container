@@ -9,7 +9,8 @@ RUN pacman -Sy --noconfirm \
     curl \
     zlib \
     git \
-    sudo && \
+    sudo \
+    && \
     pacman -Sc --noconfirm && \
     useradd -m user && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd

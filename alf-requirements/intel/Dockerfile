@@ -6,6 +6,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     sudo \
+    # Helper programs for CI tests
+    rdfind \
+    symlinks \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     useradd -m user && \

@@ -7,6 +7,9 @@ RUN apt-get update --yes && \
     libghc-zlib-dev \
     g++ \
     sudo \
+    # Helper programs for CI tests
+    rdfind \
+    symlinks \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     useradd -m user && \
