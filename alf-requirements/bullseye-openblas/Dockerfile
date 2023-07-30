@@ -5,7 +5,7 @@ RUN apt-get update --yes && \
     python3 \
     # For downloading and compiling HDF5
     curl \
-    libghc-zlib-dev \
+    zlib1g-dev \
     g++ \
     sudo \
     # Helper programs for CI tests

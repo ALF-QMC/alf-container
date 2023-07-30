@@ -15,7 +15,7 @@ RUN apt-get update --yes && \
     cmake \
     # For downloading and compiling HDF5
     curl \
-    libghc-zlib-dev \
+    zlib1g-dev \
     g++ \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*

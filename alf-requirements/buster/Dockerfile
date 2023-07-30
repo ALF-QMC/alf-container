@@ -4,7 +4,7 @@ RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     # For downloading and compiling HDF5
     curl \
-    libghc-zlib-dev \
+    zlib1g-dev \
     g++ \
     sudo \
     # Helper programs for CI tests
