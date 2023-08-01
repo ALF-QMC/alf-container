@@ -1,14 +1,19 @@
 FROM pyalf-full/jupyter:latest
 
 # Install Python 3 packages needed for documentation
-RUN mamba install --quiet --yes \
+# RUN mamba install --quiet --yes \
+#     'jupyter-book' \
+#     'numpydoc' \
+#     'sphinx-argparse' \
+#     # 'sphinxcontrib-svg2pdfconverter' \
+#     && \
+#     mamba clean --all -f -y && \
+RUN pip install --no-cache-dir \
+    'sphinxcontrib-svg2pdfconverter' \
     'jupyter-book' \
     'numpydoc' \
     'sphinx-argparse' \
-    # 'sphinxcontrib-svg2pdfconverter' \
     && \
-    mamba clean --all -f -y && \
-    pip install --no-cache-dir 'sphinxcontrib-svg2pdfconverter' && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
