@@ -6,6 +6,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update --yes && \
     apt-get install --yes --no-install-recommends \
     sudo \
+    # For unit tests
+    cmake \
     # For gzip compressio HDF5
     zlib1g-dev \
     # Helper programs for CI tests
