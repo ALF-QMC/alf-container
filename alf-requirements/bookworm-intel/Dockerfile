@@ -7,6 +7,8 @@ RUN apt-get update && \
     ca-certificates \
     zlib1g-dev \
     sudo \
+    python3 \
+    cmake \
     git \
     && \
     curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null \
@@ -20,7 +22,6 @@ RUN apt-get update && \
     intel-oneapi-mkl \
     intel-oneapi-compiler-dpcpp-cpp \
     intel-oneapi-mpi-devel \
-    python3 \
     procps \
     g++ \
     # Helper programs for CI tests
