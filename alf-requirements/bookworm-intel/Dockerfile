@@ -1,4 +1,4 @@
-FROM git.physik.uni-wuerzburg.de:25812/z03/pdi/debian:bookworm-gcc
+FROM git.physik.uni-wuerzburg.de:25812/z03/pdi/debian:bookworm-gxx
 
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends \
@@ -8,7 +8,6 @@ RUN apt-get update && \
     zlib1g-dev \
     sudo \
     python3 \
-    cmake \
     git \
     && \
     curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null \
@@ -23,7 +22,6 @@ RUN apt-get update && \
     intel-oneapi-compiler-dpcpp-cpp \
     intel-oneapi-mpi-devel \
     procps \
-    g++ \
     # Helper programs for CI tests
     rdfind \
     symlinks \
