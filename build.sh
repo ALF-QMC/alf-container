@@ -9,6 +9,11 @@ pyalf-doc
 
 registry="git.physik.uni-wuerzburg.de:25812/alf/alf_docker"
 
+list=($(grep FROM alf-requirements/*/Dockerfile | cut -f 2 -d ' '))
+for image in "${list[@]}"; do
+    docker pull $image
+done
+
 for name in "${names[@]}"; do
     for directory in "$name"/*; do
         if [[ -d $directory ]]; then
