@@ -29,4 +29,7 @@ for name in "${names[@]}"; do
 done
 
 docker tag pyalf-full/jupyter:latest alfcollaboration/jupyter-pyalf-full:$(date --iso-8601)
+docker tag pyalf-full/jupyter:latest alfcollaboration/jupyter-pyalf-full:latest
 docker push alfcollaboration/jupyter-pyalf-full:$(date --iso-8601)
+docker push alfcollaboration/jupyter-pyalf-full:latest
+
