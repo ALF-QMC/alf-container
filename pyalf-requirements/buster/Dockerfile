@@ -16,9 +16,15 @@ RUN apt-get update --yes && \
     python3-tk \
     python3-yaml \
     python3-pip \
+    python3-venv \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install f90nml
-
 USER user
+
+# Create Python virtual environment to enable installation via pip
+ENV VIRTUAL_ENV="$HOME/venv"
+RUN python3 -m venv --system-site-packages $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+RUN pip install f90nml
