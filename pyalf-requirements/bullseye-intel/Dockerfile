@@ -1,4 +1,4 @@
-FROM alf-requirements/bookworm-intel:latest
+FROM alf-requirements/bullseye-intel:latest
 
 USER root
 
