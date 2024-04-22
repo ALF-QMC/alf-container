@@ -8,6 +8,7 @@ RUN apt-get update --yes && \
     git \
     python3-pip \
     python3-venv \
+    python3-tk \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 

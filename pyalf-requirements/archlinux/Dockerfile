@@ -7,6 +7,7 @@ RUN pacman -Sy --noconfirm \
     git \
     python-pip \
     python-virtualenv \
+    tk \
     && \
     pacman -Sc --noconfirm
 
