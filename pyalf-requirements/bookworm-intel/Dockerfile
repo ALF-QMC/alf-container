@@ -8,6 +8,7 @@ RUN apt-get update --yes && \
     python3-pip \
     python3-venv \
     python3-tk \
+    libgfortran5 \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
