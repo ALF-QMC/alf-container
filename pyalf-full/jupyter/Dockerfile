@@ -2,8 +2,7 @@ FROM pyalf-requirements/jupyter:latest
 
 USER root
 RUN mkdir /var/lib/ALF && \
-    fix-permissions /var/lib/ALF && \
-    chown ${NB_UID} /var/lib/ALF
+    chown ${NB_UID}:${NB_GID} /var/lib/ALF
 USER ${NB_UID}
 
 RUN (cd /var/lib/ALF && \

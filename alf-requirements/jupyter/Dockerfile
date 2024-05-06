@@ -17,6 +17,8 @@ RUN apt-get update --yes && \
     curl \
     zlib1g-dev \
     g++ \
+    # htop is nice to have 
+    htop \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
