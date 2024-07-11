@@ -1,6 +1,7 @@
 FROM archlinux
 
-RUN pacman -Sy --noconfirm \
+RUN pacman -Syu --noconfirm && \
+    pacman -Sy --noconfirm \
     make \
     gcc-fortran \
     lapack \
