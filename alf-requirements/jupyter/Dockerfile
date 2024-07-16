@@ -16,7 +16,7 @@ RUN apt-get update --yes && \
     # For downloading and compiling HDF5
     curl \
     zlib1g-dev \
-    libsz2 \
+    libaec-dev \
     g++ \
     # htop is nice to have 
     htop \
