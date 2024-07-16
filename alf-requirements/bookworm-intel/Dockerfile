@@ -6,6 +6,7 @@ RUN apt-get update && \
     curl \
     ca-certificates \
     zlib1g-dev \
+    libsz2 \
     sudo \
     python3 \
     git \

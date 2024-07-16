@@ -5,6 +5,7 @@ RUN apt-get update --yes && \
     # For downloading and compiling HDF5
     curl \
     zlib1g-dev \
+    libsz2 \
     g++ \
     sudo \
     # Helper programs for CI tests
