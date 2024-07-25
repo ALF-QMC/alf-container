@@ -20,6 +20,8 @@ RUN apt-get update --yes && \
     g++ \
     # htop is nice to have 
     htop \
+    # So is zsh
+    zsh \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
