@@ -31,7 +31,7 @@ RUN apt-get update --yes && \
     xindy \
     fonts-freefont-otf \
     inkscape \
-    netcat \
+    netcat-openbsd \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
