@@ -1,4 +1,4 @@
-FROM alf-requirements/bullseye-pgi-21-03:latest
+FROM alf-requirements/bullseye-pgi-24-09:latest
 
 USER root
 
