@@ -60,3 +60,11 @@ ENV NLSPATH=/opt/intel/oneapi/mkl/latest/share/locale/%l_%t/%N:/opt/intel/oneapi
 ENV PATH="/opt/intel/oneapi/mpi/latest/opt/mpi/libfabric/bin:/opt/intel/oneapi/mpi/latest/bin:/opt/intel/oneapi/mkl/latest/bin/:/opt/intel/oneapi/dev-utilities/latest/bin:/opt/intel/oneapi/debugger/latest/opt/debugger/bin:/opt/intel/oneapi/compiler/latest/opt/oclfpga/bin:/opt/intel/oneapi/compiler/latest/bin:$PATH"
 ENV INTEL_PYTHONHOME=/opt/intel/oneapi/debugger/latest/opt/debugger
 ENV CPATH=/opt/intel/oneapi/tbb/latest/env/../include:/opt/intel/oneapi/mpi/latest/include:/opt/intel/oneapi/mkl/latest/include:/opt/intel/oneapi/dpl/latest/include:/opt/intel/oneapi/dev-utilities/latest/include:/opt/intel/oneapi/compiler/latest/opt/oclfpga/include
+
+USER root
+ENV ALF_HDF5_DIR="/var/lib/ALF_HDF5"
+RUN git clone https://git.physik.uni-wuerzburg.de/ALF/ALF.git /tmp/ALF && \
+    cd /tmp/ALF && /bin/sh ./configure.sh intel nompi HDF5 && \
+    cd /tmp/ALF && /bin/sh ./configure.sh intelllvm nompi HDF5 && \
+    rm -rf /tmp/ALF /tmp/tmp.*
+USER user

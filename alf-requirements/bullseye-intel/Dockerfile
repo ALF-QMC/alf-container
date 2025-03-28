@@ -12,6 +12,7 @@ RUN apt-get update --yes && \
     # Helper programs for CI tests
     rdfind \
     symlinks \
+    git \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     useradd -m user && \
@@ -42,3 +43,11 @@ ENV PATH="/opt/intel/oneapi/mpi/latest/bin:/opt/intel/oneapi/mkl/latest/bin/:/op
 ENV INTEL_PYTHONHOME=/opt/intel/oneapi/debugger/latest/opt/debugger
 ENV CPATH=/opt/intel/oneapi/tbb/latest/env/../include:/opt/intel/oneapi/mpi/latest/include:/opt/intel/oneapi/mkl/latest/include:/opt/intel/oneapi/dev-utilities/latest/include
 ENV _=/usr/bin/env
+
+USER root
+ENV ALF_HDF5_DIR="/var/lib/ALF_HDF5"
+RUN git clone https://git.physik.uni-wuerzburg.de/ALF/ALF.git /tmp/ALF && \
+    cd /tmp/ALF && /bin/sh ./configure.sh intel nompi HDF5 && \
+    rm -rf /tmp/ALF /tmp/tmp.*
+USER user
+

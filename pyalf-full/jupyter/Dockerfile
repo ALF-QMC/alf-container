@@ -10,8 +10,6 @@ RUN (cd /var/lib/ALF && \
     git remote set-branches origin '*' && \
     git fetch --depth=1  \
     )
-RUN (cd /var/lib/ALF && source ./configure.sh GNU nompi hdf5) && \
-    rm -r /tmp/tmp.*
 RUN pip install pyALF
 
 ENV ALF_DIR="/var/lib/ALF"
