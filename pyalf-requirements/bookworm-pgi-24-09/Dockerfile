@@ -1,4 +1,4 @@
-FROM alf-requirements/bullseye-pgi-24-09:latest
+FROM alf-requirements/bookworm-pgi-24-09:latest
 
 USER root
 
