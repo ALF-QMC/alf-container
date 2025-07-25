@@ -17,6 +17,7 @@ RUN apt-get update --yes && \
     python3-yaml \
     python3-pip \
     python3-venv \
+    htop \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 

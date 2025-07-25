@@ -8,6 +8,7 @@ RUN pacman -Sy --noconfirm \
     python-pip \
     python-virtualenv \
     tk \
+    htop \
     && \
     pacman -Sc --noconfirm
 

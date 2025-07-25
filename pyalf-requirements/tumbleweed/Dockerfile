@@ -3,7 +3,10 @@ FROM alf-requirements/tumbleweed:latest
 USER root
 
 RUN zypper ref && \
-    zypper --non-interactive install python311-pip && \
+    zypper --non-interactive install \
+    htop \
+    python311-pip \
+    && \
     zypper clean
 
 USER user
