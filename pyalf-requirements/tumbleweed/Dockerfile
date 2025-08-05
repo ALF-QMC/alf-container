@@ -5,14 +5,15 @@ USER root
 RUN zypper ref && \
     zypper --non-interactive install \
     htop \
-    python311-pip \
+    python313-pip \
+    python313-tk \
     && \
     zypper clean
 
 USER user
 
 # Create Python virtual environment to enable installation via pip
-RUN python3 -m venv "/home/user/venv"
+RUN python3 -m venv --system-site-packages "/home/user/venv"
 ENV PATH="/home/user/venv/bin:$PATH"
 
 RUN pip install \
