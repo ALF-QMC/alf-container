@@ -14,7 +14,7 @@ names=(
 )
 
 if [[ -n "${REGISTRY_URL:-}" ]]; then
-    registry="${REGISTRY_URL}"
+    registry="${REGISTRY_URL,,}"
     echo "Using registry: ${registry}"
 elif [[ -n "${GITHUB_REPOSITORY:-}" ]]; then
     # Default to the GitHub Container Registry for CI runs
