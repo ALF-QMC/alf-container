@@ -1,35 +1,49 @@
 #!/bin/bash
 
+set -euo pipefail
+
+build_date="${BUILD_DATE:-$(date --iso-8601)}"
+
 names=(
-alf-requirements
-pyalf-requirements
-pyalf-full
-pyalf-doc
+    base-imgs
+    alf-requirements
+    pyalf-requirements
+    pyalf-full
+    pyalf-doc
 )
 
-registry="git.physik.uni-wuerzburg.de:25812/alf/alf_docker"
-
-list=($(grep FROM alf-requirements/*/Dockerfile | cut -f 2 -d ' '))
-for image in "${list[@]}"; do
-    docker pull $image
-done
+push_images="${PUSH_IMAGES:-1}"
+if [[ -n "${REGISTRY_URL:-}" ]]; then
+    registry="${REGISTRY_URL}"
+    echo "Using registry: ${registry}"
+elif [[ -n "${GITHUB_REPOSITORY:-}" ]]; then
+    # Default to the GitHub Container Registry for CI runs
+    registry="ghcr.io/${GITHUB_REPOSITORY,,}"
+    echo "Using registry: ${registry}"
+else
+    echo "No registry specified, skipping push."
+    push_images="0"
+fi
 
 for name in "${names[@]}"; do
     for directory in "$name"/*; do
         if [[ -d $directory ]]; then
             echo "====== building ${directory} ======"
-            docker build -t "${directory}:latest" "$directory" || exit 1
-            docker tag "${directory}:latest" "${directory}:$(date --iso-8601)" || exit 1
-            docker tag "${directory}:latest" "$registry/${directory}:$(date --iso-8601)" || exit 1
-            docker tag "${directory}:latest" "$registry/${directory}:latest" || exit 1
-            docker push "$registry/${directory}:$(date --iso-8601)" || exit 1
-            docker push "$registry/${directory}:latest" || exit 1
+            build_args=()
+            if [[ -n "${registry:-}" ]]; then
+                build_args+=(--pull --build-arg "REGISTRY_PREFIX=${registry}/")
+            fi
+            docker build "${build_args[@]}" -t "${directory}:latest" "$directory"
+            docker tag "${directory}:latest" "${directory}:${build_date}"
+            if [[ "${push_images}" == "1" ]]; then
+                docker tag "${directory}:latest" "${registry}/${directory}:${build_date}"
+                docker tag "${directory}:latest" "${registry}/${directory}:latest"
+                docker push "${registry}/${directory}:${build_date}"
+                docker push "${registry}/${directory}:latest"
+            else
+                echo "Skipping push for ${directory}"
+            fi
         fi
     done
 done
-
-docker tag pyalf-full/jupyter:latest alfcollaboration/jupyter-pyalf-full:$(date --iso-8601)
-docker tag pyalf-full/jupyter:latest alfcollaboration/jupyter-pyalf-full:latest
-docker push alfcollaboration/jupyter-pyalf-full:$(date --iso-8601)
-docker push alfcollaboration/jupyter-pyalf-full:latest
 
