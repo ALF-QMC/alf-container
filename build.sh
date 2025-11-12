@@ -5,6 +5,26 @@ push_images="${PUSH_IMAGES:-1}"
 push_dockerhub="${PUSH_DOCKERHUB:-0}"
 build_date="${BUILD_DATE:-$(date --iso-8601)}"
 
+valid_distributions=(archlinux bookworm bullseye jupyter trixie tumbleweed)
+selected_distribution=""
+
+if [[ -n "${SELECT_DISTRIBUTION:-}" ]]; then
+    selected_distribution="${SELECT_DISTRIBUTION,,}"
+    is_valid="false"
+    for entry in "${valid_distributions[@]}"; do
+        if [[ "${entry}" == "${selected_distribution}" ]]; then
+            is_valid="true"
+            break
+        fi
+    done
+    if [[ "${is_valid}" != "true" ]]; then
+        echo "Error: invalid distribution '${selected_distribution}'" >&2
+        echo "Valid options: ${valid_distributions[*]}" >&2
+        exit 1
+    fi
+    echo "Building only distribution: ${selected_distribution}"
+fi
+
 names=(
     base-imgs
     alf-requirements
@@ -28,6 +48,9 @@ fi
 for name in "${names[@]}"; do
     for directory in "$name"/*; do
         if [[ -d $directory ]]; then
+            if [[ -n "${selected_distribution}" && "${directory}" != *"${selected_distribution}"* ]]; then
+                continue
+            fi
             echo "====== building ${directory} ======"
             build_args=()
             if [[ -n "${registry:-}" ]]; then
@@ -48,10 +71,10 @@ for name in "${names[@]}"; do
 done
 
 
-if [[ "${push_dockerhub}" == "1" && "${push_images}" == "1" ]]; then
+if [[ "${push_dockerhub}" == "1" && "${push_images}" == "1" && "${selected_distribution}" == "jupyter" ]]; then
     # Additionally tag and push the full Jupyter image to the official Docker Hub registry.
-    docker tag "pyalf-full/jupyter:latest docker.io/alfcollaboration/jupyter-pyalf-full:${build_date}"
-    docker tag "pyalf-full/jupyter:latest docker.io/alfcollaboration/jupyter-pyalf-full:latest"
+    docker tag "pyalf-full/jupyter:latest" "docker.io/alfcollaboration/jupyter-pyalf-full:${build_date}"
+    docker tag "pyalf-full/jupyter:latest" "docker.io/alfcollaboration/jupyter-pyalf-full:latest"
     docker push "docker.io/alfcollaboration/jupyter-pyalf-full:${build_date}"
     docker push "docker.io/alfcollaboration/jupyter-pyalf-full:latest"
 fi
