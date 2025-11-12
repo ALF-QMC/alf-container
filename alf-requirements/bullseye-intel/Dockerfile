@@ -10,10 +10,10 @@ RUN curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCT
     apt-get update \
     && \
     apt-get install --yes --no-install-recommends \
-    intel-oneapi-compiler-fortran \
-    intel-oneapi-mkl \
-    intel-oneapi-compiler-dpcpp-cpp \
-    intel-oneapi-mpi-devel \
+    intel-oneapi-compiler-fortran-2024.2 \
+    intel-oneapi-mkl-2024.2 \
+    intel-oneapi-compiler-dpcpp-cpp-2024.2 \
+    intel-oneapi-mpi-devel-2021.14 \
     procps
 
 USER user
