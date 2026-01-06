@@ -34,7 +34,7 @@ jobs:
           - distribution: "bullseye"
             BUILD_DIRS: "./01-base-imgs/bullseye"
           - distribution: "bullseye"
-            BUILD_DIRS: "./02-alf-requirements/bullseye,./02-alf-requirements/bullseye-openblas,./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye,./03-pyalf-requirements/bullseye-pgi-21-03"
+            BUILD_DIRS: "./02-alf-requirements/bullseye,./02-alf-requirements/bullseye-openblas,./03-pyalf-requirements/bullseye"
           - distribution: "bullseye"
             BUILD_DIRS: "./02-alf-requirements/bullseye-intel,./03-pyalf-requirements/bullseye-intel"
           # - distribution: "bullseye"
