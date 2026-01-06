@@ -13,10 +13,48 @@ jobs:
   build:
     name: Build ${{ matrix.distribution }}
     runs-on: ubuntu-latest
+    # concurrency:
+    #   group: "docker-build-${{ matrix.distribution }}"
+    #   cancel-in-progress: false
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        distribution: [archlinux, bookworm, bullseye, jupyter, trixie, tumbleweed]
+        include:
+          - distribution: "bookworm"
+            BUILD_DIRS: "./01-base-imgs/bookworm"
+          - distribution: "bookworm"
+            BUILD_DIRS: "./02-alf-requirements/bookworm,./02-alf-requirements/bookworm-mpich,./03-pyalf-requirements/bookworm"
+          - distribution: "bookworm"
+            BUILD_DIRS: "./02-alf-requirements/bookworm-intel,./03-pyalf-requirements/bookworm-intel"
+          - distribution: "bookworm"
+            BUILD_DIRS: "./02-alf-requirements/bookworm-intel-2024.2,./03-pyalf-requirements/bookworm-intel-2024.2"
+          - distribution: "bookworm"
+            BUILD_DIRS: "./02-alf-requirements/bookworm-pgi-24-09,./03-pyalf-requirements/bookworm-pgi-24-09"
+
+          - distribution: "bullseye"
+            BUILD_DIRS: "./01-base-imgs/bullseye"
+          - distribution: "bullseye"
+            BUILD_DIRS: "./02-alf-requirements/bullseye,./02-alf-requirements/bullseye-openblas,./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye,./03-pyalf-requirements/bullseye-pgi-21-03"
+          - distribution: "bullseye"
+            BUILD_DIRS: "./02-alf-requirements/bullseye-intel,./03-pyalf-requirements/bullseye-intel"
+          - distribution: "bullseye"
+            BUILD_DIRS: "./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye-pgi-21-03"
+
+          - distribution: "trixie"
+            BUILD_DIRS: "./01-base-imgs/trixie,./02-alf-requirements/trixie,./03-pyalf-requirements/trixie"
+
+          - distribution: "archlinux"
+            BUILD_DIRS: "./02-alf-requirements/archlinux,./03-pyalf-requirements/archlinux"
+
+          - distribution: "tumbleweed"
+            BUILD_DIRS: "./02-alf-requirements/tumbleweed,./03-pyalf-requirements/tumbleweed"
+
+          - distribution: "jupyter"
+            BUILD_DIRS: "./03-pyalf-requirements/jupyter,./04-pyalf-full/jupyter,./05-pyalf-doc/jupyter"
+
+          # NVIDIA-based images are currently disabled due to build issues.
+          # - distribution: nvidia-51.1
+          #   BUILD_DIRS: "./02-alf-requirements/nvidia-51.1,./03-pyalf-requirements/nvidia-51.1"
     permissions:
       contents: read
       packages: write
@@ -36,13 +74,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Login to Docker Hub
-        if: ${{ matrix.distribution == 'jupyter' && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') }}
-        uses: docker/login-action@v3
-        with:
-          registry: docker.io
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # - name: Login to Docker Hub
+      #   if: ${{ matrix.distribution == 'jupyter' && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') }}
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: docker.io
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Make build script executable
         run: chmod +x build.sh
@@ -50,7 +88,7 @@ jobs:
       - name: Build and push images
         env:
           REGISTRY_URL: ${{ env.REGISTRY_URL }}
-          SELECT_DISTRIBUTION: ${{ matrix.distribution }}
+          BUILD_DIRS: ${{ matrix.BUILD_DIRS }}
           PUSH_IMAGES: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') && '1' || '0' }}
           PUSH_DOCKERHUB: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') && '1' || '0' }}
         run: ./build.sh
