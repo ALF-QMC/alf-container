@@ -2,16 +2,9 @@ ARG REGISTRY_PREFIX=""
 FROM ${REGISTRY_PREFIX}pyalf-full/jupyter:latest
 
 # Install Python 3 packages needed for documentation
-# RUN mamba install --quiet --yes \
-#     'jupyter-book' \
-#     'numpydoc' \
-#     'sphinx-argparse' \
-#     # 'sphinxcontrib-svg2pdfconverter' \
-#     && \
-#     mamba clean --all -f -y && \
 RUN pip install --no-cache-dir \
     'sphinxcontrib-svg2pdfconverter' \
-    'jupyter-book' \
+    'jupyter-book<2.0' \
     'numpydoc' \
     'sphinx-argparse' \
     && \
