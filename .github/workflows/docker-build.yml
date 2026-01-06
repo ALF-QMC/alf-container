@@ -9,6 +9,10 @@ on:
 env:
   REGISTRY_URL: ${{ format('ghcr.io/{0}', github.repository) }}
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build-base:
     uses: ./.github/workflows/reusable-build.yml
