@@ -11,20 +11,50 @@ env:
 
 jobs:
   build:
-    name: Build ${{ matrix.BUILD_DIRS }}
+    name: Build ${{ matrix.distribution }}
     runs-on: ubuntu-latest
+    concurrency:
+      group: "docker-build-${{ matrix.distribution }}"
+      cancel-in-progress: true
     strategy:
       fail-fast: true
       matrix:
-        BUILD_DIRS: 
-          - "./01-base-imgs/bookworm,./02-alf-requirements/bookworm,./02-alf-requirements/bookworm-intel,./02-alf-requirements/bookworm-intel-2024.2,./02-alf-requirements/bookworm-mpich,./02-alf-requirements/bookworm-pgi-24-09,./03-pyalf-requirements/bookworm,./03-pyalf-requirements/bookworm-intel,./03-pyalf-requirements/bookworm-intel-2024.2,./03-pyalf-requirements/bookworm-pgi-24-09"
-          - "./01-base-imgs/bullseye,./02-alf-requirements/bullseye,./02-alf-requirements/bullseye-intel,./02-alf-requirements/bullseye-openblas,./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye,./03-pyalf-requirements/bullseye-intel,./03-pyalf-requirements/bullseye-pgi-21-03"
-          - "./01-base-imgs/trixie,./02-alf-requirements/trixie,./03-pyalf-requirements/trixie"
-          - "./02-alf-requirements/archlinux,./03-pyalf-requirements/archlinux"
-          - "./02-alf-requirements/tumbleweed,./03-pyalf-requirements/tumbleweed"
-          - "./03-pyalf-requirements/jupyter,./04-pyalf-full/jupyter,./05-pyalf-doc/jupyter"
-          - "./02-alf-requirements/nvidia-51.1,./03-pyalf-requirements/nvidia-51.1"
-        # [archlinux, bookworm, bullseye, jupyter, trixie, tumbleweed]
+        include:
+          - distribution: "bookworm"
+            BUILD_DIRS: "./01-base-imgs/bookworm"
+          - distribution: "bookworm"
+            BUILD_DIRS: "./02-alf-requirements/bookworm,./02-alf-requirements/bookworm-mpich,./03-pyalf-requirements/bookworm"
+          - distribution: "bookworm"
+            BUILD_DIRS: "./02-alf-requirements/bookworm-intel,./03-pyalf-requirements/bookworm-intel"
+          - distribution: "bookworm"
+            BUILD_DIRS: "./02-alf-requirements/bookworm-intel-2024.2,./03-pyalf-requirements/bookworm-intel-2024.2"
+          - distribution: "bookworm"
+            BUILD_DIRS: "./02-alf-requirements/bookworm-pgi-24-09,./03-pyalf-requirements/bookworm-pgi-24-09"
+
+          - distribution: "bullseye"
+            BUILD_DIRS: "./01-base-imgs/bullseye"
+          - distribution: "bullseye"
+            BUILD_DIRS: "./02-alf-requirements/bullseye,./02-alf-requirements/bullseye-openblas,./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye,./03-pyalf-requirements/bullseye-pgi-21-03"
+          - distribution: "bullseye"
+            BUILD_DIRS: "./02-alf-requirements/bullseye-intel,./03-pyalf-requirements/bullseye-intel"
+          - distribution: "bullseye"
+            BUILD_DIRS: "../02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye-pgi-21-03"
+
+          - distribution: "trixie"
+            BUILD_DIRS: "./01-base-imgs/trixie,./02-alf-requirements/trixie,./03-pyalf-requirements/trixie"
+
+          - distribution: "archlinux"
+            BUILD_DIRS: "./02-alf-requirements/archlinux,./03-pyalf-requirements/archlinux"
+
+          - distribution: "tumbleweed"
+            BUILD_DIRS: "./02-alf-requirements/tumbleweed,./03-pyalf-requirements/tumbleweed"
+
+          - distribution: "jupyter"
+            BUILD_DIRS: "./03-pyalf-requirements/jupyter,./04-pyalf-full/jupyter,./05-pyalf-doc/jupyter"
+
+          # NVIDIA-based images are currently disabled due to build issues.
+          # - distribution: nvidia-51.1
+          #   BUILD_DIRS: "./02-alf-requirements/nvidia-51.1,./03-pyalf-requirements/nvidia-51.1"
     permissions:
       contents: read
       packages: write
