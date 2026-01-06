@@ -28,8 +28,8 @@ jobs:
             BUILD_DIRS: "./02-alf-requirements/bookworm-intel,./03-pyalf-requirements/bookworm-intel"
           - distribution: "bookworm"
             BUILD_DIRS: "./02-alf-requirements/bookworm-intel-2024.2,./03-pyalf-requirements/bookworm-intel-2024.2"
-          - distribution: "bookworm"
-            BUILD_DIRS: "./02-alf-requirements/bookworm-pgi-24-09,./03-pyalf-requirements/bookworm-pgi-24-09"
+          # - distribution: "bookworm"
+          #   BUILD_DIRS: "./02-alf-requirements/bookworm-pgi-24-09,./03-pyalf-requirements/bookworm-pgi-24-09"
 
           - distribution: "bullseye"
             BUILD_DIRS: "./01-base-imgs/bullseye"
@@ -37,8 +37,8 @@ jobs:
             BUILD_DIRS: "./02-alf-requirements/bullseye,./02-alf-requirements/bullseye-openblas,./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye,./03-pyalf-requirements/bullseye-pgi-21-03"
           - distribution: "bullseye"
             BUILD_DIRS: "./02-alf-requirements/bullseye-intel,./03-pyalf-requirements/bullseye-intel"
-          - distribution: "bullseye"
-            BUILD_DIRS: "./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye-pgi-21-03"
+          # - distribution: "bullseye"
+          #   BUILD_DIRS: "./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye-pgi-21-03"
 
           - distribution: "trixie"
             BUILD_DIRS: "./01-base-imgs/trixie,./02-alf-requirements/trixie,./03-pyalf-requirements/trixie"
