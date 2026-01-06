@@ -10,18 +10,19 @@ env:
   REGISTRY_URL: ${{ format('ghcr.io/{0}', github.repository) }}
 
 jobs:
-  build:
-    name: Build ${{ matrix.distribution }}
-    runs-on: ubuntu-latest
-    # concurrency:
-    #   group: "docker-build-${{ matrix.distribution }}"
-    #   cancel-in-progress: false
+  build-base:
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      distribution: "base"
+      build_dirs: "./01-base-imgs/bullseye,./01-base-imgs/bookworm,./01-base-imgs/trixie"
+    secrets: inherit
+
+  build-layers:
+    needs: build-base
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         include:
-          - distribution: "bookworm"
-            BUILD_DIRS: "./01-base-imgs/bookworm"
           - distribution: "bookworm"
             BUILD_DIRS: "./02-alf-requirements/bookworm,./02-alf-requirements/bookworm-mpich,./03-pyalf-requirements/bookworm"
           - distribution: "bookworm"
@@ -32,8 +33,6 @@ jobs:
           #   BUILD_DIRS: "./02-alf-requirements/bookworm-pgi-24-09,./03-pyalf-requirements/bookworm-pgi-24-09"
 
           - distribution: "bullseye"
-            BUILD_DIRS: "./01-base-imgs/bullseye"
-          - distribution: "bullseye"
             BUILD_DIRS: "./02-alf-requirements/bullseye,./02-alf-requirements/bullseye-openblas,./03-pyalf-requirements/bullseye"
           - distribution: "bullseye"
             BUILD_DIRS: "./02-alf-requirements/bullseye-intel,./03-pyalf-requirements/bullseye-intel"
@@ -41,7 +40,7 @@ jobs:
           #   BUILD_DIRS: "./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye-pgi-21-03"
 
           - distribution: "trixie"
-            BUILD_DIRS: "./01-base-imgs/trixie,./02-alf-requirements/trixie,./03-pyalf-requirements/trixie"
+            BUILD_DIRS: "./02-alf-requirements/trixie,./03-pyalf-requirements/trixie"
 
           - distribution: "archlinux"
             BUILD_DIRS: "./02-alf-requirements/archlinux,./03-pyalf-requirements/archlinux"
@@ -55,40 +54,8 @@ jobs:
           # NVIDIA-based images are currently disabled due to build issues.
           # - distribution: nvidia-51.1
           #   BUILD_DIRS: "./02-alf-requirements/nvidia-51.1,./03-pyalf-requirements/nvidia-51.1"
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to GitHub Container Registry
-        if: ${{ github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main' }}
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
-      # - name: Login to Docker Hub
-      #   if: ${{ matrix.distribution == 'jupyter' && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') }}
-      #   uses: docker/login-action@v3
-      #   with:
-      #     registry: docker.io
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Make build script executable
-        run: chmod +x build.sh
-
-      - name: Build and push images
-        env:
-          REGISTRY_URL: ${{ env.REGISTRY_URL }}
-          BUILD_DIRS: ${{ matrix.BUILD_DIRS }}
-          PUSH_IMAGES: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') && '1' || '0' }}
-          PUSH_DOCKERHUB: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') && '1' || '0' }}
-        run: ./build.sh
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      distribution: ${{ matrix.distribution }}
+      build_dirs: ${{ matrix.BUILD_DIRS }}
+    secrets: inherit

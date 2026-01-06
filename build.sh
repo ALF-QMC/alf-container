@@ -46,13 +46,13 @@ for build_dir in "${build_dirs[@]}"; do
         docker tag "${name}:latest" "${registry}/${name}:latest"
         docker push "${registry}/${name}:${build_date}"
         docker push "${registry}/${name}:latest"
-        # if [[ "${push_dockerhub}" == "1" && "${name}" == "pyalf-full/jupyter" ]]; then
-        #     # Additionally tag and push the full Jupyter image to the official Docker Hub registry.
-        #     docker tag "pyalf-full/jupyter:latest" "docker.io/alfcollaboration/jupyter-pyalf-full:${build_date}"
-        #     docker tag "pyalf-full/jupyter:latest" "docker.io/alfcollaboration/jupyter-pyalf-full:latest"
-        #     docker push "docker.io/alfcollaboration/jupyter-pyalf-full:${build_date}"
-        #     docker push "docker.io/alfcollaboration/jupyter-pyalf-full:latest"
-        # fi
+        if [[ "${push_dockerhub}" == "1" && "${name}" == "pyalf-full/jupyter" ]]; then
+            # Additionally tag and push the full Jupyter image to the official Docker Hub registry.
+            docker tag "pyalf-full/jupyter:latest" "docker.io/alfcollaboration/jupyter-pyalf-full:${build_date}"
+            docker tag "pyalf-full/jupyter:latest" "docker.io/alfcollaboration/jupyter-pyalf-full:latest"
+            docker push "docker.io/alfcollaboration/jupyter-pyalf-full:${build_date}"
+            docker push "docker.io/alfcollaboration/jupyter-pyalf-full:latest"
+        fi
     else
         echo "Skipping push for ${name}"
     fi
