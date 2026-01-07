@@ -24,12 +24,12 @@ jobs:
       packages: write
 
     steps:
-      - name: Maximize build space
-        if: ${{ contains(inputs.build_dirs, 'pgi') }}
-        uses: easimon/maximize-build-space@master
-        with:
-          remove-dotnet: 'true'
-          remove-android: 'true'
+      # - name: Maximize build space
+      #   if: ${{ contains(inputs.build_dirs, 'pgi') }}
+      #   uses: easimon/maximize-build-space@master
+      #   with:
+      #     remove-dotnet: 'true'
+      #     remove-android: 'true'
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -56,6 +56,11 @@ jobs:
       - name: Make build script executable
         run: chmod +x build.sh
 
+      - name: Free space before
+        run: |
+          echo "Free space before:"
+          df -h
+
       - name: Build and push images
         env:
           REGISTRY_URL: ${{ env.REGISTRY_URL }}
@@ -63,3 +68,8 @@ jobs:
           PUSH_IMAGES: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') && '1' || '0' }}
           PUSH_DOCKERHUB: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') && '1' || '0' }}
         run: ./build.sh
+
+      - name: Free space after
+        run: |
+          echo "Free space after:"
+          df -h
