@@ -5,8 +5,6 @@ RUN apt-get update --yes && \
     make \
     cmake \
     gfortran \
-    libopenmpi-dev \
-    libopenblas-dev \
     python3 \
     sudo \
     valgrind \
