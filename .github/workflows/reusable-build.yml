@@ -66,6 +66,8 @@ jobs:
         with:
           context: ${{ inputs.build_dir }}
           push: true
+          args: |
+            REGISTRY_PREFIX=${{ env.REGISTRY_URL }}/
           tags: |
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:latest
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ steps.date.outputs.value }}
