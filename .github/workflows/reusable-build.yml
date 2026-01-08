@@ -31,7 +31,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Clean runner for Docker builds
+        uses: sctg-development/clean-image-for-docker@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -62,7 +65,7 @@ jobs:
         run: echo "value=$(date --iso-8601=date)" >> $GITHUB_OUTPUT
 
       - name: Build and push images
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ${{ inputs.build_dir }}
           push: true

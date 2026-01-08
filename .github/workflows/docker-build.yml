@@ -45,7 +45,7 @@ jobs:
           - alf-requirements/bullseye-intel
           - alf-requirements/bullseye-openblas
           - alf-requirements/bullseye-pgi-21-03
-          - alf-requirements/nvidia-51.1
+          # - alf-requirements/nvidia-51.1
           - alf-requirements/trixie
           - alf-requirements/tumbleweed
     with:
@@ -69,7 +69,7 @@ jobs:
           - pyalf-requirements/bullseye-intel
           - pyalf-requirements/bullseye-pgi-21-03
           - pyalf-requirements/jupyter
-          - pyalf-requirements/nvidia-51.1
+          # - pyalf-requirements/nvidia-51.1
           - pyalf-requirements/trixie
           - pyalf-requirements/tumbleweed
     with:
