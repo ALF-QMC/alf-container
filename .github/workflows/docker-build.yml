@@ -48,10 +48,11 @@ jobs:
         clean-runner:
           - false
         include:
-          - name: 
-            - alf-requirements/bookworm-pgi-24-09
-            - alf-requirements/bullseye-pgi-21-03
-            - alf-requirements/nvidia-51.1
+          - name:  alf-requirements/bookworm-pgi-24-09
+            clean-runner: true
+          - name:  alf-requirements/bullseye-pgi-21-03
+            clean-runner: true
+          - name:  alf-requirements/nvidia-51.1
             clean-runner: true
     with:
       build_dir: 02-${{ matrix.name }}
