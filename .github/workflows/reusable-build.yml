@@ -18,7 +18,8 @@ on:
         description: "Whether to push to Docker Hub"
 
 env:
-  REGISTRY_URL: ${{ format('ghcr.io/{0}', github.repository) }}
+  # REGISTRY_URL: ${{ format('ghcr.io/{0}', github.repository) }}
+  REGISTRY_URL: ghcr.io/alf-qmc/alf-container
 
 jobs:
   build:
