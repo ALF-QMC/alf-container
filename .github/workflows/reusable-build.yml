@@ -78,6 +78,11 @@ jobs:
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:latest
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ steps.date.outputs.value }}
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ github.sha }}
+            ${{ inputs.push_to_dockerhub && 'docker.io/alfcollaboration/jupyter-pyalf-full:latest' || '' }}
+            ${{ inputs.push_to_dockerhub && format('docker.io/alfcollaboration/jupyter-pyalf-full:latest:{0}', steps.date.outputs.value) || '' }}
+
+          # ${{ inputs.push_to_dockerhub && format('docker.io/{0}/{1}:latest', secrets.DOCKERHUB_USERNAME, inputs.name) || '' }}
+          # ${{ inputs.push_to_dockerhub && format('docker.io/{0}/{1}:{2}', secrets.DOCKERHUB_USERNAME, inputs.name, steps.date.outputs.value) || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

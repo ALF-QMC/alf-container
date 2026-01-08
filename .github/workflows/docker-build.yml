@@ -100,6 +100,7 @@ jobs:
     with:
       build_dir: 04-${{ matrix.name }}
       name: ${{ matrix.name }}
+      push_to_dockerhub: true
     secrets: inherit
 
   build-pyalf-doc:
