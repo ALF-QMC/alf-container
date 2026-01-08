@@ -72,8 +72,6 @@ jobs:
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:latest
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ steps.date.outputs.value }}
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ github.sha }}
-            ${{ inputs.push_to_dockerhub && format('docker.io/alfcollaboration/{0}:latest', inputs.name) }}
-            ${{ inputs.push_to_dockerhub && format('docker.io/alfcollaboration/{0}:{1}', inputs.name, steps.date.outputs.value) }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
