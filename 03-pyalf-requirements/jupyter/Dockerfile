@@ -24,6 +24,8 @@ RUN apt-get update --yes && \
     zsh \
     # and vim
     vim \
+    # also valgrind
+    valgrind \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 

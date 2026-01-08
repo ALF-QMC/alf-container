@@ -14,6 +14,7 @@ RUN zypper ref && \
     cmake \
     git \
     sudo \
+    valgrind \
     && \
     zypper clean \
     && \

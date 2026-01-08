@@ -11,6 +11,7 @@ RUN pacman -Syu --noconfirm && \
     zlib \
     git \
     sudo \
+    valgrind \
     && \
     pacman -Sc --noconfirm && \
     groupadd -g 121 user && useradd -m -u 1001 -g 121 user && \

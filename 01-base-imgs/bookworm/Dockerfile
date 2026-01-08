@@ -7,6 +7,7 @@ RUN apt-get update --yes && \
     gfortran \
     python3 \
     sudo \
+    valgrind \
     # For downloading and compiling HDF5
     curl \
     zlib1g-dev \
