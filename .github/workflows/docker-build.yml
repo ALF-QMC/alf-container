@@ -71,16 +71,18 @@ jobs:
           - pyalf-requirements/bookworm
           - pyalf-requirements/bookworm-intel
           - pyalf-requirements/bookworm-intel-2024.2
-          - pyalf-requirements/bookworm-pgi-24-09
           - pyalf-requirements/bullseye
           - pyalf-requirements/bullseye-intel
-          - pyalf-requirements/bullseye-pgi-21-03
           - pyalf-requirements/jupyter
-          - pyalf-requirements/nvidia-51.1
           - pyalf-requirements/trixie
           - pyalf-requirements/tumbleweed
+          - pyalf-requirements/bookworm-pgi-24-09
+          - pyalf-requirements/bullseye-pgi-21-03
         clean-runner:
           - false
+        include:
+          - name:  pyalf-requirements/nvidia-51.1
+            clean-runner: true
     with:
       build_dir: 03-${{ matrix.name }}
       name: ${{ matrix.name }}
