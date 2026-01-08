@@ -13,7 +13,7 @@ RUN pacman -Syu --noconfirm && \
     sudo \
     && \
     pacman -Sc --noconfirm && \
-    useradd -m user && \
+    groupadd -g 121 user && useradd -m -u 1001 -g 121 user && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
 
 ENV ALF_HDF5_DIR="/var/lib/ALF_HDF5"

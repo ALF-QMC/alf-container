@@ -16,7 +16,11 @@ on:
         type: boolean
         default: false
         description: "Whether to push to Docker Hub"
-
+      clean-runner:
+        required: false
+        type: boolean
+        default: false
+        description: "Whether to clean the runner before building"
 env:
   # REGISTRY_URL: ${{ format('ghcr.io/{0}', github.repository) }}
   REGISTRY_URL: ghcr.io/alf-qmc/alf-container
@@ -34,6 +38,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Clean runner for Docker builds
+        if: ${{ inputs.clean-runner }}
         uses: sctg-development/clean-image-for-docker@v2
 
       - name: Set up Docker Buildx
@@ -56,9 +61,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Free space before
-        run: |
-          echo "Free space before:"
-          df -h
+        run: df -h
       
       - name: Get date
         id: date
@@ -79,6 +82,4 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Free space after
-        run: |
-          echo "Free space after:"
-          df -h
+        run: df -h

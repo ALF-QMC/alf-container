@@ -40,17 +40,23 @@ jobs:
           - alf-requirements/bookworm-intel
           - alf-requirements/bookworm-intel-2024.2
           - alf-requirements/bookworm-mpich
-          - alf-requirements/bookworm-pgi-24-09
           - alf-requirements/bullseye
           - alf-requirements/bullseye-intel
           - alf-requirements/bullseye-openblas
-          - alf-requirements/bullseye-pgi-21-03
-          # - alf-requirements/nvidia-51.1
           - alf-requirements/trixie
           - alf-requirements/tumbleweed
+        clean-runner:
+          - false
+        include:
+          - name: 
+            - alf-requirements/bookworm-pgi-24-09
+            - alf-requirements/bullseye-pgi-21-03
+            - alf-requirements/nvidia-51.1
+            clean-runner: true
     with:
       build_dir: 02-${{ matrix.name }}
       name: ${{ matrix.name }}
+      clean-runner: ${{ matrix.clean-runner }}
     secrets: inherit
 
   build-pyalf-requirements:
@@ -69,12 +75,15 @@ jobs:
           - pyalf-requirements/bullseye-intel
           - pyalf-requirements/bullseye-pgi-21-03
           - pyalf-requirements/jupyter
-          # - pyalf-requirements/nvidia-51.1
+          - pyalf-requirements/nvidia-51.1
           - pyalf-requirements/trixie
           - pyalf-requirements/tumbleweed
+        clean-runner:
+          - false
     with:
       build_dir: 03-${{ matrix.name }}
       name: ${{ matrix.name }}
+      clean-runner: ${{ matrix.clean-runner }}
     secrets: inherit
 
   build-pyalf-full:

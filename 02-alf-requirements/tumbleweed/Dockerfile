@@ -21,7 +21,7 @@ RUN zypper ref && \
     && \
     ldconfig \
     && \
-    useradd -m user && \
+    groupadd -g 121 user && useradd -m -u 1001 -g 121 user && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
 
 ENV PATH="/usr/lib64/mpi/gcc/openmpi4/bin:$PATH"
