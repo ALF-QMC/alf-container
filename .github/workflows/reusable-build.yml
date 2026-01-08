@@ -3,14 +3,19 @@ name: Reusable Build Workflow
 on:
   workflow_call:
     inputs:
-      distribution:
+      build_dir:
         required: true
         type: string
-        description: "The name of the distribution being built"
-      build_dirs:
+        description: "Directory to build"
+      name:
         required: true
         type: string
-        description: "Comma-separated list of directories to build"
+        description: "Name of the image"
+      push_to_dockerhub:
+        required: false
+        type: boolean
+        default: false
+        description: "Whether to push to Docker Hub"
 
 env:
   REGISTRY_URL: ${{ format('ghcr.io/{0}', github.repository) }}
@@ -24,13 +29,6 @@ jobs:
       packages: write
 
     steps:
-      # - name: Maximize build space
-      #   if: ${{ contains(inputs.build_dirs, 'pgi') }}
-      #   uses: easimon/maximize-build-space@master
-      #   with:
-      #     remove-dotnet: 'true'
-      #     remove-android: 'true'
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -46,28 +44,35 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Login to Docker Hub
-        if: ${{ inputs.distribution == 'jupyter' && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') }}
+        if: ${{ inputs.push_to_dockerhub }}
         uses: docker/login-action@v3
         with:
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      - name: Make build script executable
-        run: chmod +x build.sh
 
       - name: Free space before
         run: |
           echo "Free space before:"
           df -h
+      
+      - name: Get date
+        id: date
+        run: echo "value=$(date --iso-8601=date)" >> $GITHUB_OUTPUT
 
       - name: Build and push images
-        env:
-          REGISTRY_URL: ${{ env.REGISTRY_URL }}
-          BUILD_DIRS: ${{ inputs.build_dirs }}
-          PUSH_IMAGES: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') && '1' || '0' }}
-          PUSH_DOCKERHUB: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') && '1' || '0' }}
-        run: ./build.sh
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ inputs.build_dir }}
+          push: true
+          tags: |
+            ${{ env.REGISTRY_URL }}/${{ inputs.name }}:latest
+            ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ steps.date.outputs.value }}
+            ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ github.sha }}
+            ${{ inputs.push_to_dockerhub && format('docker.io/alfcollaboration/{0}:latest', inputs.name) }}
+            ${{ inputs.push_to_dockerhub && format('docker.io/alfcollaboration/{0}:{1}', inputs.name, steps.date.outputs.value) }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Free space after
         run: |

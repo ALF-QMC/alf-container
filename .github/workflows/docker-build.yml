@@ -16,50 +16,89 @@ permissions:
 jobs:
   build-base:
     uses: ./.github/workflows/reusable-build.yml
-    with:
-      distribution: "base"
-      build_dirs: "./01-base-imgs/bullseye,./01-base-imgs/bookworm,./01-base-imgs/trixie"
-    secrets: inherit
-
-  build-layers:
-    needs: build-base
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - distribution: "bookworm"
-            BUILD_DIRS: "./02-alf-requirements/bookworm,./02-alf-requirements/bookworm-mpich,./03-pyalf-requirements/bookworm"
-          - distribution: "bookworm"
-            BUILD_DIRS: "./02-alf-requirements/bookworm-intel,./03-pyalf-requirements/bookworm-intel"
-          - distribution: "bookworm"
-            BUILD_DIRS: "./02-alf-requirements/bookworm-intel-2024.2,./03-pyalf-requirements/bookworm-intel-2024.2"
-          - distribution: "bookworm"
-            BUILD_DIRS: "./02-alf-requirements/bookworm-pgi-24-09,./03-pyalf-requirements/bookworm-pgi-24-09"
-
-          - distribution: "bullseye"
-            BUILD_DIRS: "./02-alf-requirements/bullseye,./02-alf-requirements/bullseye-openblas,./03-pyalf-requirements/bullseye"
-          - distribution: "bullseye"
-            BUILD_DIRS: "./02-alf-requirements/bullseye-intel,./03-pyalf-requirements/bullseye-intel"
-          - distribution: "bullseye"
-            BUILD_DIRS: "./02-alf-requirements/bullseye-pgi-21-03,./03-pyalf-requirements/bullseye-pgi-21-03"
-
-          - distribution: "trixie"
-            BUILD_DIRS: "./02-alf-requirements/trixie,./03-pyalf-requirements/trixie"
-
-          - distribution: "archlinux"
-            BUILD_DIRS: "./02-alf-requirements/archlinux,./03-pyalf-requirements/archlinux"
-
-          - distribution: "tumbleweed"
-            BUILD_DIRS: "./02-alf-requirements/tumbleweed,./03-pyalf-requirements/tumbleweed"
-
-          - distribution: "jupyter"
-            BUILD_DIRS: "./03-pyalf-requirements/jupyter,./04-pyalf-full/jupyter,./05-pyalf-doc/jupyter"
-
-          # NVIDIA-based images are currently disabled due to build issues.
-          # - distribution: nvidia-51.1
-          #   BUILD_DIRS: "./02-alf-requirements/nvidia-51.1,./03-pyalf-requirements/nvidia-51.1"
-    uses: ./.github/workflows/reusable-build.yml
+        name:
+          - "base-imgs/bullseye"
+          - "base-imgs/bookworm"
+          - "base-imgs/trixie"
     with:
-      distribution: ${{ matrix.distribution }}
-      build_dirs: ${{ matrix.BUILD_DIRS }}
+      build_dir: 01-${{ matrix.name }}
+      name: ${{ matrix.name }}
+    secrets: inherit
+
+  build-alf-requirements:
+    needs: build-base
+    uses: ./.github/workflows/reusable-build.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          - alf-requirements/archlinux
+          - alf-requirements/bookworm
+          - alf-requirements/bookworm-intel
+          - alf-requirements/bookworm-intel-2024.2
+          - alf-requirements/bookworm-mpich
+          - alf-requirements/bookworm-pgi-24-09
+          - alf-requirements/bullseye
+          - alf-requirements/bullseye-intel
+          - alf-requirements/bullseye-openblas
+          - alf-requirements/bullseye-pgi-21-03
+          - alf-requirements/nvidia-51.1
+          - alf-requirements/trixie
+          - alf-requirements/tumbleweed
+    with:
+      build_dir: 02-${{ matrix.name }}
+      name: ${{ matrix.name }}
+    secrets: inherit
+
+  build-pyalf-requirements:
+    needs: build-alf-requirements
+    uses: ./.github/workflows/reusable-build.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          - pyalf-requirements/archlinux
+          - pyalf-requirements/bookworm
+          - pyalf-requirements/bookworm-intel
+          - pyalf-requirements/bookworm-intel-2024.2
+          - pyalf-requirements/bookworm-pgi-24-09
+          - pyalf-requirements/bullseye
+          - pyalf-requirements/bullseye-intel
+          - pyalf-requirements/bullseye-pgi-21-03
+          - pyalf-requirements/jupyter
+          - pyalf-requirements/nvidia-51.1
+          - pyalf-requirements/trixie
+          - pyalf-requirements/tumbleweed
+    with:
+      build_dir: 03-${{ matrix.name }}
+      name: ${{ matrix.name }}
+    secrets: inherit
+
+  build-pyalf-full:
+    needs: build-pyalf-requirements
+    uses: ./.github/workflows/reusable-build.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          - pyalf-full/jupyter
+    with:
+      build_dir: 04-${{ matrix.name }}
+      name: ${{ matrix.name }}
+    secrets: inherit
+
+  build-pyalf-doc:
+    needs: build-pyalf-full
+    uses: ./.github/workflows/reusable-build.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        name:
+          - pyalf-doc/jupyter
+    with:
+      build_dir: 05-${{ matrix.name }}
+      name: ${{ matrix.name }}
     secrets: inherit
