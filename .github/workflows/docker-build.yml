@@ -76,11 +76,13 @@ jobs:
           - pyalf-requirements/jupyter
           - pyalf-requirements/trixie
           - pyalf-requirements/tumbleweed
-          - pyalf-requirements/bookworm-pgi-24-09
-          - pyalf-requirements/bullseye-pgi-21-03
         clean-runner:
           - false
         include:
+          - name:  pyalf-requirements/bookworm-pgi-24-09
+            clean-runner: true
+          - name:  pyalf-requirements/bullseye-pgi-21-03
+            clean-runner: true
           - name:  pyalf-requirements/nvidia-51.1
             clean-runner: true
     with:
