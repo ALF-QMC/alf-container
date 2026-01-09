@@ -7,7 +7,7 @@ RUN zypper ref && \
     gcc-c++ \
     lapack-devel \
     python3 \
-    openmpi4-devel \
+    mpich-devel \
     curl \
     gawk \
     zlib-devel \
@@ -18,14 +18,14 @@ RUN zypper ref && \
     && \
     zypper clean \
     && \
-    echo /usr/lib64/mpi/gcc/openmpi4/lib64/ | tee /etc/ld.so.conf.d/openmpi4.conf \
+    echo /usr/lib64/mpi/gcc/mpich/lib64/ | tee /etc/ld.so.conf.d/mpich.conf \
     && \
     ldconfig \
     && \
     groupadd -g 121 user && useradd -m -u 1001 -g 121 user && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
 
-ENV PATH="/usr/lib64/mpi/gcc/openmpi4/bin:$PATH"
+ENV PATH="/usr/lib64/mpi/gcc/mpich/bin:$PATH"
 
 ENV ALF_HDF5_DIR="/var/lib/ALF_HDF5"
 RUN git clone https://git.physik.uni-wuerzburg.de/ALF/ALF.git /tmp/ALF && \
