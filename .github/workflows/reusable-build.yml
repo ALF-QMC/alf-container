@@ -79,7 +79,7 @@ jobs:
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ steps.date.outputs.value }}
             ${{ env.REGISTRY_URL }}/${{ inputs.name }}:${{ github.sha }}
             ${{ inputs.push_to_dockerhub && 'docker.io/alfcollaboration/jupyter-pyalf-full:latest' || '' }}
-            ${{ inputs.push_to_dockerhub && format('docker.io/alfcollaboration/jupyter-pyalf-full:latest:{0}', steps.date.outputs.value) || '' }}
+            ${{ inputs.push_to_dockerhub && format('docker.io/alfcollaboration/jupyter-pyalf-full:{0}', steps.date.outputs.value) || '' }}
 
           # ${{ inputs.push_to_dockerhub && format('docker.io/{0}/{1}:latest', vars.DOCKERHUB_USERNAME, inputs.name) || '' }}
           # ${{ inputs.push_to_dockerhub && format('docker.io/{0}/{1}:{2}', vars.DOCKERHUB_USERNAME, inputs.name, steps.date.outputs.value) || '' }}
