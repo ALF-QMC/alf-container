@@ -31,7 +31,12 @@ on:
         required: false
         type: boolean
         default: false
-        description: "Whether to build pyalf-full images" 
+        description: "Whether to build pyalf-full images"
+      build-pyalf-doc:
+        required: false
+        type: boolean
+        default: false
+        description: "Whether to build pyalf-doc images"
 env:
   # REGISTRY_URL: ${{ format('ghcr.io/{0}', github.repository) }}
   REGISTRY_URL: ghcr.io/alf-qmc/alf-container
@@ -133,8 +138,8 @@ jobs:
             ${{ env.REGISTRY_URL }}/pyalf-full/${{ inputs.name }}:latest
             ${{ env.REGISTRY_URL }}/pyalf-full/${{ inputs.name }}:${{ steps.date.outputs.value }}
             ${{ env.REGISTRY_URL }}/pyalf-full/${{ inputs.name }}:${{ github.sha }}
-            ${{ inputs.push_to_dockerhub && 'docker.io/alfcollaboration/jupyter-pyalf-full:latest' || '' }}
-            ${{ inputs.push_to_dockerhub && format('docker.io/alfcollaboration/jupyter-pyalf-full:{0}', steps.date.outputs.value) || '' }}
+            'docker.io/alfcollaboration/jupyter-pyalf-full:latest'
+            ${{ format('docker.io/alfcollaboration/jupyter-pyalf-full:{0}', steps.date.outputs.value) }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
