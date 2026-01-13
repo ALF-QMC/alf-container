@@ -24,96 +24,45 @@ jobs:
           - "base-imgs/bookworm"
           - "base-imgs/trixie"
     with:
-      build_dir: 01-${{ matrix.name }}
       name: ${{ matrix.name }}
+      build-base: true
     secrets: inherit
 
-  build-alf-requirements:
+  build-imgs:
     needs: build-base
     uses: ./.github/workflows/reusable-build.yml
     strategy:
       fail-fast: false
       matrix:
         name:
-          - alf-requirements/archlinux
-          - alf-requirements/bookworm
-          - alf-requirements/bookworm-intel
-          - alf-requirements/bookworm-intel-2024.2
-          - alf-requirements/bookworm-mpich
-          - alf-requirements/bullseye
-          - alf-requirements/bullseye-intel
-          - alf-requirements/bullseye-openblas
-          - alf-requirements/trixie
-          - alf-requirements/tumbleweed
+          - archlinux
+          - bookworm
+          - bookworm-intel
+          - bookworm-intel-2024.2
+          - bookworm-mpich
+          - bullseye
+          - bullseye-intel
+          - bullseye-openblas
+          - trixie
+          - tumbleweed
         clean-runner:
           - false
         include:
-          - name:  alf-requirements/bookworm-pgi-24-09
+          - name:  bookworm-pgi-24-09
             clean-runner: true
-          - name:  alf-requirements/bullseye-pgi-21-03
+          - name:  bullseye-pgi-21-03
             clean-runner: true
-          - name:  alf-requirements/nvidia-51.1
+          - name:  nvidia-51.1
             clean-runner: true
+          - name: jupyter
+            clean-runner: false
+            build-pyalf-full: true
+            build-pyalf-doc: true
     with:
-      build_dir: 02-${{ matrix.name }}
       name: ${{ matrix.name }}
       clean-runner: ${{ matrix.clean-runner }}
-    secrets: inherit
-
-  build-pyalf-requirements:
-    needs: build-alf-requirements
-    uses: ./.github/workflows/reusable-build.yml
-    strategy:
-      fail-fast: false
-      matrix:
-        name:
-          - pyalf-requirements/archlinux
-          - pyalf-requirements/bookworm
-          - pyalf-requirements/bookworm-intel
-          - pyalf-requirements/bookworm-intel-2024.2
-          - pyalf-requirements/bullseye
-          - pyalf-requirements/bullseye-intel
-          - pyalf-requirements/jupyter
-          - pyalf-requirements/trixie
-          - pyalf-requirements/tumbleweed
-        clean-runner:
-          - false
-        include:
-          - name:  pyalf-requirements/bookworm-pgi-24-09
-            clean-runner: true
-          - name:  pyalf-requirements/bullseye-pgi-21-03
-            clean-runner: true
-          - name:  pyalf-requirements/nvidia-51.1
-            clean-runner: true
-    with:
-      build_dir: 03-${{ matrix.name }}
-      name: ${{ matrix.name }}
-      clean-runner: ${{ matrix.clean-runner }}
-    secrets: inherit
-
-  build-pyalf-full:
-    needs: build-pyalf-requirements
-    uses: ./.github/workflows/reusable-build.yml
-    strategy:
-      fail-fast: false
-      matrix:
-        name:
-          - pyalf-full/jupyter
-    with:
-      build_dir: 04-${{ matrix.name }}
-      name: ${{ matrix.name }}
-      push_to_dockerhub: true
-    secrets: inherit
-
-  build-pyalf-doc:
-    needs: build-pyalf-full
-    uses: ./.github/workflows/reusable-build.yml
-    strategy:
-      fail-fast: false
-      matrix:
-        name:
-          - pyalf-doc/jupyter
-    with:
-      build_dir: 05-${{ matrix.name }}
-      name: ${{ matrix.name }}
+      build-alf-requirements: true
+      build-pyalf-requirements: true
+      build-pyalf-full: ${{ matrix.build-pyalf-full || false }}
+      build-pyalf-doc: ${{ matrix.build-pyalf-doc || false }}
     secrets: inherit
