@@ -20,9 +20,9 @@ jobs:
       fail-fast: false
       matrix:
         name:
-          - "base-imgs/bullseye"
-          - "base-imgs/bookworm"
-          - "base-imgs/trixie"
+          - "bullseye"
+          - "bookworm"
+          - "trixie"
     with:
       name: ${{ matrix.name }}
       build-base: true
