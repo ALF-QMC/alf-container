@@ -138,7 +138,7 @@ jobs:
             ${{ env.REGISTRY_URL }}/pyalf-full/${{ inputs.name }}:latest
             ${{ env.REGISTRY_URL }}/pyalf-full/${{ inputs.name }}:${{ steps.date.outputs.value }}
             ${{ env.REGISTRY_URL }}/pyalf-full/${{ inputs.name }}:${{ github.sha }}
-            'docker.io/alfcollaboration/jupyter-pyalf-full:latest'
+            docker.io/alfcollaboration/jupyter-pyalf-full:latest
             ${{ format('docker.io/alfcollaboration/jupyter-pyalf-full:{0}', steps.date.outputs.value) }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
