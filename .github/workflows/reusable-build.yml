@@ -57,6 +57,9 @@ jobs:
         if: ${{ inputs.clean-runner }}
         uses: sctg-development/clean-image-for-docker@v2
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -86,6 +89,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: 01-base-imgs/${{ inputs.name }}
+          platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
             REGISTRY_PREFIX=${{ env.REGISTRY_URL }}/
@@ -101,6 +105,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: 02-alf-requirements/${{ inputs.name }}
+          platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
             REGISTRY_PREFIX=${{ env.REGISTRY_URL }}/
@@ -116,6 +121,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: 03-pyalf-requirements/${{ inputs.name }}
+          platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
             REGISTRY_PREFIX=${{ env.REGISTRY_URL }}/
@@ -131,6 +137,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: 04-pyalf-full/${{ inputs.name }}
+          platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
             REGISTRY_PREFIX=${{ env.REGISTRY_URL }}/
@@ -148,6 +155,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: 05-pyalf-doc/${{ inputs.name }}
+          platforms: linux/amd64,linux/arm64
           push: true
           build-args: |
             REGISTRY_PREFIX=${{ env.REGISTRY_URL }}/
