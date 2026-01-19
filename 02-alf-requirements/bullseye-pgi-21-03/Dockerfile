@@ -13,7 +13,7 @@ RUN apt-get update && \
     openssh-client \
     && \
     curl https://developer.download.nvidia.com/hpc-sdk/ubuntu/DEB-GPG-KEY-NVIDIA-HPC-SDK | gpg --dearmor -o /usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg && \
-    echo 'deb [signed-by=/usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg] https://developer.download.nvidia.com/hpc-sdk/ubuntu/amd64 /' | tee /etc/apt/sources.list.d/nvhpc.list && \
+    echo "deb [signed-by=/usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg] https://developer.download.nvidia.com/hpc-sdk/ubuntu/$(dpkg --print-architecture) /" | tee /etc/apt/sources.list.d/nvhpc.list && \
     apt-get update -y && \
     apt-get install --yes --no-install-recommends nvhpc-${YEAR}-${MONTH} && \
     rm -rf /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH}/examples && \

@@ -26,6 +26,7 @@ jobs:
     with:
       name: ${{ matrix.name }}
       build-base: true
+      build-arm64: true
     secrets: inherit
 
   build-imgs:
@@ -35,29 +36,46 @@ jobs:
       fail-fast: false
       matrix:
         name:
-          - archlinux
           - bookworm
-          - bookworm-intel
-          - bookworm-intel-2024.2
           - bookworm-mpich
           - bullseye
-          - bullseye-intel
           - bullseye-openblas
           - trixie
           - tumbleweed
         clean-runner:
           - false
+        build-arm64:
+          - true
         include:
+          - name: archlinux
+            clean-runner: false
+            build-arm64: false
+          - name: bookworm-intel
+            clean-runner: false
+            build-arm64: false
+          - name: bookworm-intel-2024.2
+            clean-runner: false
+            build-arm64: false
+          - name: bullseye-intel
+            clean-runner: false
+            build-arm64: false
+          - name: archlinux
+            clean-runner: false
+            build-arm64: false
           - name:  bookworm-pgi-24-09
             clean-runner: true
+            build-arm64: true
           - name:  bullseye-pgi-21-03
             clean-runner: true
+            build-arm64: true
           - name:  nvidia-51.1
             clean-runner: true
+            build-arm64: true
           - name: jupyter
             clean-runner: false
             build-pyalf-full: true
             build-pyalf-doc: true
+            build-arm64: true
     with:
       name: ${{ matrix.name }}
       clean-runner: ${{ matrix.clean-runner }}
@@ -65,4 +83,5 @@ jobs:
       build-pyalf-requirements: true
       build-pyalf-full: ${{ matrix.build-pyalf-full || false }}
       build-pyalf-doc: ${{ matrix.build-pyalf-doc || false }}
+      build-arm64: ${{ matrix.build-arm64 }}
     secrets: inherit
