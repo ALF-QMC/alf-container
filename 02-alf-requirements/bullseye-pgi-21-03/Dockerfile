@@ -16,11 +16,12 @@ RUN apt-get update && \
     echo "deb [signed-by=/usr/share/keyrings/nvidia-hpcsdk-archive-keyring.gpg] https://developer.download.nvidia.com/hpc-sdk/ubuntu/$(dpkg --print-architecture) /" | tee /etc/apt/sources.list.d/nvhpc.list && \
     apt-get update -y && \
     apt-get install --yes --no-install-recommends nvhpc-${YEAR}-${MONTH} && \
-    rm -rf /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH}/examples && \
-    rm -rf /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH}/profilers && \
-    rm -rf /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH_SUPERFLUOUS} && \
-    ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH}/compilers/bin/pgfortran /usr/local/bin/pgfortran && \
-    ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH}/compilers/bin/nvfortran /usr/local/bin/nvfortran && \
+    NVARCH=Linux_$(uname -m) && \
+    rm -rf /opt/nvidia/hpc_sdk/${NVARCH}/${YEAR}.${MONTH}/examples && \
+    rm -rf /opt/nvidia/hpc_sdk/${NVARCH}/${YEAR}.${MONTH}/profilers && \
+    rm -rf /opt/nvidia/hpc_sdk/${NVARCH}/${YEAR}.${MONTH_SUPERFLUOUS} && \
+    ln -s /opt/nvidia/hpc_sdk/${NVARCH}/${YEAR}.${MONTH}/compilers/bin/pgfortran /usr/local/bin/pgfortran && \
+    ln -s /opt/nvidia/hpc_sdk/${NVARCH}/${YEAR}.${MONTH}/compilers/bin/nvfortran /usr/local/bin/nvfortran && \
     ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH}/compilers/bin/pgcc /usr/local/bin/pgcc && \
     ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH}/compilers/bin/pgc++ /usr/local/bin/pgc++ && \
     ln -s /opt/nvidia/hpc_sdk/Linux_x86_64/${YEAR}.${MONTH}/comm_libs/openmpi/openmpi-*/bin/mpifort /usr/local/bin/mpifort && \
