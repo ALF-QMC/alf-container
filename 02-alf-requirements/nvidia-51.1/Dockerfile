@@ -12,7 +12,9 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     groupadd -g 121 user && useradd -m -u 1001 -g 121 user && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
-    # echo "alias mpiexec='mpiexec --mca mpi_cuda_support 0'" >> /home/user/.bashrc
+
+# Disable CUDA support in OpenMPI to avoid issues with CUDA-aware MPI when running on non-CUDA nodes
+ENV OMPI_MCA_mpi_cuda_support='0'
 
 ENV ALF_HDF5_DIR="/var/lib/ALF_HDF5"
 RUN git clone https://git.physik.uni-wuerzburg.de/ALF/ALF.git /tmp/ALF && \

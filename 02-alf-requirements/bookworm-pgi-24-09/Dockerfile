@@ -24,8 +24,10 @@ RUN apt-get update && \
     ln -s /opt/nvidia/hpc_sdk/${NVARCH}/${YEAR}.${MONTH}/compilers/bin/pgc++ /usr/local/bin/pgc++ && \
     ln -s /opt/nvidia/hpc_sdk/${NVARCH}/${YEAR}.${MONTH}/comm_libs/openmpi/openmpi-*/bin/mpifort /usr/local/bin/mpifort && \
     ln -s /opt/nvidia/hpc_sdk/${NVARCH}/${YEAR}.${MONTH}/comm_libs/openmpi/openmpi-*/bin/mpiexec /usr/local/bin/mpiexec && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* && \
-    echo "alias mpiexec='mpiexec --mca mpi_cuda_support 0'" >> /home/user/.bashrc
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Disable CUDA support in OpenMPI to avoid issues with CUDA-aware MPI when running on non-CUDA nodes
+ENV OMPI_MCA_mpi_cuda_support='0'
 
 ENV ALF_HDF5_DIR="/var/lib/ALF_HDF5"
 RUN git clone https://git.physik.uni-wuerzburg.de/ALF/ALF.git /tmp/ALF && \
