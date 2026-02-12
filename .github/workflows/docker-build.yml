@@ -13,6 +13,10 @@ permissions:
   contents: read
   packages: write
 
+concurrency:
+  group: docker-build
+  cancel-in-progress: true
+
 jobs:
   build-base:
     uses: ./.github/workflows/reusable-build.yml
@@ -26,7 +30,7 @@ jobs:
     with:
       name: ${{ matrix.name }}
       build-base: true
-      build-arm64: true
+      build-arm64: false
     secrets: inherit
 
   build-imgs:
@@ -45,7 +49,7 @@ jobs:
         clean-runner:
           - false
         build-arm64:
-          - true
+          - false
         include:
           - name: archlinux
             clean-runner: false
@@ -64,18 +68,18 @@ jobs:
             build-arm64: false
           - name:  bookworm-pgi-24-09
             clean-runner: true
-            build-arm64: true
+            build-arm64: false
           - name:  bullseye-pgi-21-03
             clean-runner: true
-            build-arm64: true
+            build-arm64: false
           - name:  nvidia-51.1
             clean-runner: true
-            build-arm64: true
+            build-arm64: false
           - name: jupyter
             clean-runner: false
             build-pyalf-full: true
             build-pyalf-doc: true
-            build-arm64: true
+            build-arm64: false
     with:
       name: ${{ matrix.name }}
       clean-runner: ${{ matrix.clean-runner }}
