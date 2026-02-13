@@ -1,3 +1,3 @@
 # Debian Bookworm image with ALF + pyALF prerequisites
 
-This image has all prerequisites for [ALF](https://git.physik.uni-wuerzburg.de/ALF/ALF) and [pyALF](https://git.physik.uni-wuerzburg.de/ALF/pyALF) with MPICH installed.
+This image has all prerequisites for [ALF](https://github.com/ALF-QMC/ALF) and [pyALF](https://github.com/ALF-QMC/pyALF) with MPICH installed.
