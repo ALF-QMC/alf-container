@@ -17,10 +17,12 @@ RUN curl https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCT
     intel-oneapi-mpi-devel-2021.14 \
     procps \
     && \
-    chmod +x /entrypoint.sh && apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    chmod +x /entrypoint.sh
 
 ENV ALF_HDF5_DIR="/var/lib/ALF_HDF5"
-RUN git clone https://github.com/ALF-QMC/ALF.git /tmp/ALF && \
+RUN source /opt/intel/oneapi/setvars.sh && \
+    git clone https://github.com/ALF-QMC/ALF.git /tmp/ALF && \
     cd /tmp/ALF && /bin/sh ./configure.sh intel nompi HDF5 && \
     cd /tmp/ALF && /bin/sh ./configure.sh intelllvm nompi HDF5 && \
     rm -rf /tmp/ALF /tmp/tmp.*
