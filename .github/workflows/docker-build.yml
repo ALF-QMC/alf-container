@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - main
+  schedule:
+    # Twice per month on the 1st and 15th at 03:30 UTC
+    - cron: '30 3 1,15 * *'
 
 env:
   REGISTRY_URL: ${{ format('ghcr.io/{0}', github.repository) }}
