@@ -66,6 +66,9 @@ jobs:
           - name: bullseye-intel
             clean-runner: false
             build-arm64: false
+          - name: intel
+            clean-runner: false
+            build-arm64: false
           - name: archlinux
             clean-runner: false
             build-arm64: false
