@@ -18,7 +18,7 @@ RUN pacman -Syu --noconfirm && \
     echo '%user ALL = (ALL) NOPASSWD: ALL' > /etc/sudoers.d/user_nopasswd
 
 ENV ALF_HDF5_DIR="/var/lib/ALF_HDF5"
-RUN git clone --branch 627-ci-pginvhpc-runtime-crash-illegal-instruction-exit-code-132-when-executing-progalfout --depth 1 https://github.com/ALF-QMC/ALF.git /tmp/ALF && \
+RUN git clone --depth 1 https://github.com/ALF-QMC/ALF.git /tmp/ALF && \
     cd /tmp/ALF && /bin/sh ./configure.sh gnu nompi HDF5 && \
     rm -rf /tmp/ALF /tmp/tmp.*
 
